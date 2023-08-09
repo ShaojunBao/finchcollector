@@ -1,38 +1,10 @@
 from django.shortcuts import render
+from django.views.generic.edit import CreateView
 from .models import Finch
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-finches = [
-    {
-        'name': 'Oliver',
-        'breed': 'Gouldian Finch',
-        'description': 'Brightly colored with a vibrant personality, known for its green, yellow, and red markings.',
-        'age': 2,
-    },
-    {
-        'name': 'Bella',
-        'breed': 'Zebra Finch',
-        'description': 'Small and easy to care for, with a distinctive black and white striped pattern on its tail.',
-        'age': 3,
-    },
-    {
-        'name': 'Charlie',
-        'breed': 'Bengalese Finch',
-        'description': 'A sociable bird with a pleasant song, known for its spotted and streaked appearance.',
-        'age': 1,
-    },
-    {
-        'name': 'Daisy',
-        'breed': 'Chaffinch',
-        'description': 'A common finch with a strong voice, sporting shades of blue-grey, pinkish-red, and brown.',
-        'age': 4,
-    },
-    {
-        'name': 'Milo',
-        'breed': 'Greenfinch',
-        'description': 'A robust finch with olive-green coloring, known for its playful nature and loud song.',
-        'age': 3,
-    },
-]
+
+
 
 # Create your views here.
 def home(request):
@@ -50,3 +22,16 @@ def finches_index(request):
 def finches_detail(request, finch_id):
     finch = Finch.objects.get(id=finch_id)
     return render(request, 'finches/detail.html', {'finch' : finch})
+
+class FinchCreate(CreateView):
+    model = Finch
+    fields = '__all__'
+    # success_url = '/finches/{finch_id}'
+    
+class FinchUpdate(UpdateView):
+    model = Finch
+    fields = ['breed', 'description', 'age']
+    
+class FinchDelete(DeleteView):
+    model = Finch
+    success_url = '/finches'
